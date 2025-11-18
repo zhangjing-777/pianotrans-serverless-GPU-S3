@@ -32,7 +32,7 @@ def handler(event):
         aws_access_key_id = input_data.get("aws_access_key_id", os.environ.get("AWS_ACCESS_KEY_ID"))
         aws_secret_access_key = input_data.get("aws_secret_access_key", os.environ.get("AWS_SECRET_ACCESS_KEY"))
         aws_region = input_data.get("aws_region", os.environ.get("AWS_REGION", "ap-southeast-1"))
-        s3_prefix = input_data.get("s3_prefix", "qiupupu/PianoTrans")
+        s3_prefix = input_data.get("s3_prefix", "PianoTrans")
         
         # 解码音频
         audio_bytes = base64.b64decode(audio_b64)
