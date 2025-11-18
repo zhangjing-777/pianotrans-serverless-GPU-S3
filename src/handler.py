@@ -27,11 +27,11 @@ def handler(event):
         input_data = event["input"]
         audio_b64 = input_data["audio_base64"]
         
-        # S3配置
-        s3_bucket = input_data.get("s3_bucket")
-        aws_access_key_id = input_data.get("aws_access_key_id")
-        aws_secret_access_key = input_data.get("aws_secret_access_key")
-        aws_region = input_data.get("aws_region", "us-east-1")
+        # S3配置 - 优先使用环境变量
+        s3_bucket = input_data.get("s3_bucket", os.environ.get("S3_BUCKET_NAME"))
+        aws_access_key_id = input_data.get("aws_access_key_id", os.environ.get("AWS_ACCESS_KEY_ID"))
+        aws_secret_access_key = input_data.get("aws_secret_access_key", os.environ.get("AWS_SECRET_ACCESS_KEY"))
+        aws_region = input_data.get("aws_region", os.environ.get("AWS_REGION", "ap-southeast-1"))
         s3_prefix = input_data.get("s3_prefix", "qiupupu/PianoTrans")
         
         # 解码音频
