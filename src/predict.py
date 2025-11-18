@@ -2,21 +2,9 @@ from piano_transcription_inference import PianoTranscription, sample_rate
 import librosa
 import tempfile
 import os
-import torch
 
 # 全局变量，只加载一次模型
 _transcriptor = None
-
-def get_device():
-    """检测并返回可用的设备"""
-    if torch.cuda.is_available():
-        device = 'cuda'
-        print(f"CUDA available! Using GPU: {torch.cuda.get_device_name(0)}")
-        print(f"GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.2f} GB")
-    else:
-        device = 'cpu'
-        print("WARNING: CUDA not available, using CPU!")
-    return device
 
 def load_audio_safe(audio_path, sr=16000, mono=True):
     """安全加载音频，兼容不同版本的 librosa"""
@@ -32,9 +20,8 @@ def get_transcriptor():
     """获取或创建转录器实例（单例模式）"""
     global _transcriptor
     if _transcriptor is None:
-        device = get_device()
-        print(f"Loading piano transcription model on {device}...")
-        _transcriptor = PianoTranscription(device=device, checkpoint_path=None)
+        print("Loading piano transcription model on GPU...")
+        _transcriptor = PianoTranscription(device='cuda', checkpoint_path=None)
         print("Model loaded successfully!")
     return _transcriptor
 
